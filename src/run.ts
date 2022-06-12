@@ -24,6 +24,7 @@ export const run = async (inputs: Inputs): Promise<void> => {
 
   const wikiBasePath = path.join(workspace, inputs.wikiBasePath)
   core.info(`copying artifact(s) to ${wikiBasePath}`)
+  await io.mkdirP(wikiBasePath)
   for (const f of files) {
     await io.cp(f, wikiBasePath)
   }

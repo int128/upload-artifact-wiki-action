@@ -46,6 +46,7 @@ export const copyFiles = async (files: string[], destinationDirectory: string) =
   for (const f of files) {
     const relativePath = path.relative('.', f)
     const destination = path.join(destinationDirectory, relativePath)
+    await io.mkdirP(path.dirname(destination))
     await io.cp(f, destination)
     core.info(`${f} -> ${destination}`)
   }

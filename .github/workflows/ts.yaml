@@ -33,15 +33,12 @@ jobs:
       - run: yarn build
       - run: yarn package
 
-      - run: |
-          convert -background lightblue -fill blue \
-            -font Candice -pointsize 72 label:Anthony \
-            label.png
+      - run: convert -background lightblue -fill blue -pointsize 72 label:Hello output.png
 
       - name: e2e-test
         uses: ./
         with:
-          path: label.png
+          path: output.png
 
   generate:
     runs-on: ubuntu-latest

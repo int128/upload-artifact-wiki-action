@@ -25,7 +25,7 @@ export const clone = async (cwd: string, url: string, token: string): Promise<vo
       '--no-recurse-submodules',
       '--depth=1',
       'origin',
-      `+refs/heads/HEAD:refs/remotes/origin/HEAD`,
+      `+HEAD:refs/remotes/origin/HEAD`,
     ],
     { cwd }
   )

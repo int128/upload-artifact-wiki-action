@@ -5,14 +5,6 @@ inputs:
   path:
     description: path to artifact
     required: true
-  wiki-url:
-    description: url of wiki
-    required: true
-    default: https://github.com/${{ github.repository }}.wiki.git
-  wiki-base-path:
-    description: base path in wiki
-    required: true
-    default: ${{ github.ref }}
   token:
     description: token for git push
     required: true

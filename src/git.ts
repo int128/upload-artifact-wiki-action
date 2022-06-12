@@ -25,11 +25,11 @@ export const clone = async (cwd: string, url: string, token: string): Promise<vo
       '--no-recurse-submodules',
       '--depth=1',
       'origin',
-      `+main:refs/remotes/origin/HEAD`,
+      `+HEAD:refs/remotes/origin/main`,
     ],
     { cwd }
   )
-  await exec.exec('git', ['branch', '--list', '--remote', `origin/HEAD`], { cwd })
+  await exec.exec('git', ['branch', '--list', '--remote', `origin/main`], { cwd })
   await exec.exec('git', ['checkout', '--progress', '--force', 'main'], { cwd })
 }
 
@@ -46,5 +46,5 @@ export const commit = async (cwd: string, message: string): Promise<void> => {
 }
 
 export const push = async (cwd: string): Promise<number> => {
-  return await exec.exec('git', ['push', 'origin', `HEAD:refs/heads/HEAD`], { cwd })
+  return await exec.exec('git', ['push', 'origin', `HEAD:HEAD`], { cwd })
 }

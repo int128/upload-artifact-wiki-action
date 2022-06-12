@@ -29,7 +29,12 @@ export const run = async (inputs: Inputs): Promise<void> => {
     await io.cp(f, wikiBasePath)
   }
 
-  await git.status(workspace)
+  const status = await git.status(workspace)
+  if (!status) {
+    core.info('nothing to commit')
+    return
+  }
+
   await git.commit(workspace, 'upload-artifact-wiki')
   await git.push(workspace)
 }

@@ -34,7 +34,7 @@ jobs:
       - run: yarn package
 
       - run: |
-          magick -background lightblue -fill blue \
+          convert -background lightblue -fill blue \
             -font Candice -pointsize 72 label:Anthony \
             label.png
 

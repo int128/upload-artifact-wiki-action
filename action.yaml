@@ -1,10 +1,22 @@
-name: typescript-action
-description: Template of TypeScript Action
+name: upload-artifact-wiki
+description: Upload artifact to GitHub Wiki
 
 inputs:
-  name:
-    description: example input
+  path:
+    description: path to artifact
     required: true
+  wiki-url:
+    description: url of wiki
+    required: true
+    default: https://github.com/${{ github.repository }}.wiki.git
+  wiki-base-path:
+    description: base path in wiki
+    required: true
+    default: ${{ github.ref }}
+  token:
+    description: token for git push
+    required: true
+    default: ${{ github.token }}
 
 runs:
   using: 'node16'

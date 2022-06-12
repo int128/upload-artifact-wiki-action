@@ -33,10 +33,15 @@ jobs:
       - run: yarn build
       - run: yarn package
 
+      - run: |
+          magick -background lightblue -fill blue \
+            -font Candice -pointsize 72 label:Anthony \
+            label.png
+
       - name: e2e-test
         uses: ./
         with:
-          name: foo
+          path: label.png
 
   generate:
     runs-on: ubuntu-latest

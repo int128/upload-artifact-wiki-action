@@ -25,12 +25,12 @@ export const clone = async (cwd: string, url: string, token: string): Promise<vo
       '--no-recurse-submodules',
       '--depth=1',
       'origin',
-      `+HEAD:refs/remotes/origin/HEAD`,
+      `+main:refs/remotes/origin/HEAD`,
     ],
     { cwd }
   )
   await exec.exec('git', ['branch', '--list', '--remote', `origin/HEAD`], { cwd })
-  await exec.exec('git', ['checkout', '--progress', '--force', 'HEAD'], { cwd })
+  await exec.exec('git', ['checkout', '--progress', '--force', 'main'], { cwd })
 }
 
 export const status = async (cwd: string): Promise<string> => {

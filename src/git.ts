@@ -46,5 +46,5 @@ export const commit = async (cwd: string, message: string): Promise<void> => {
 }
 
 export const push = async (cwd: string): Promise<number> => {
-  return await exec.exec('git', ['push', 'origin'], { cwd })
+  return await exec.exec('git', ['push', 'origin', 'HEAD:HEAD'], { cwd })
 }

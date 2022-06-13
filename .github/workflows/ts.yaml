@@ -33,13 +33,17 @@ jobs:
       - run: yarn build
       - run: yarn package
 
-      - run: |
-          convert logo: -resize 256x256 output.png
-
+      - run: 'convert logo: -resize 256x256 output.png'
       - name: Run upload-artifact-wiki
+        id: upload-artifact-wiki
         uses: ./
         with:
           path: output.png
+      - uses: int128/comment-action@v1
+        with:
+          post: |
+            :sparkles: Uploaded artifact
+            ![screenshot](${{ steps.upload-artifact-wiki.outputs.url }}/output.png)
 
   generate:
     runs-on: ubuntu-latest

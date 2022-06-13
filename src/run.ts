@@ -12,7 +12,11 @@ type Inputs = {
   token: string
 }
 
-export const run = async (inputs: Inputs): Promise<void> => {
+type Outputs = {
+  url: string
+}
+
+export const run = async (inputs: Inputs): Promise<Outputs> => {
   const globber = await glob.create(inputs.path, { matchDirectories: false })
   const files = await globber.glob()
   core.info(`uploading ${files.length} artifact(s)`)
@@ -23,6 +27,9 @@ export const run = async (inputs: Inputs): Promise<void> => {
   await git.clone(workspace, wikiRepository, inputs.token)
 
   const wikiBaseDirectory = getBaseDirectory()
+  const wikiBaseUrl = `${github.context.serverUrl}/${github.context.repo.owner}/${github.context.repo.repo}/wiki/${wikiBaseDirectory}`
+  core.info(`artifact is published at ${wikiBaseUrl}`)
+
   const destination = path.join(workspace, wikiBaseDirectory)
   core.info(`copying artifact(s) to ${destination}`)
   await copyFiles(files, destination)
@@ -30,13 +37,11 @@ export const run = async (inputs: Inputs): Promise<void> => {
   const status = await git.status(workspace)
   if (!status) {
     core.info('nothing to commit')
-    return
+    return { url: wikiBaseUrl }
   }
   await git.commit(workspace, 'upload-artifact-wiki')
   await git.push(workspace)
-
-  const wikiHtmlUrl = `${github.context.serverUrl}/${github.context.repo.owner}/${github.context.repo.repo}/wiki/${wikiBaseDirectory}`
-  core.info(`uploaded to ${wikiHtmlUrl}`)
+  return { url: wikiBaseUrl }
 }
 
 const getBaseDirectory = () => {

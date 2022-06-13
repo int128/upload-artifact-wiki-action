@@ -24,6 +24,7 @@ export const clone = async (cwd: string, url: string, token: string): Promise<vo
     ],
     { cwd }
   )
+  await exec.exec('git', ['rev-parse', 'HEAD'], { cwd })
 }
 
 export const status = async (cwd: string): Promise<string> => {
@@ -39,5 +40,5 @@ export const commit = async (cwd: string, message: string): Promise<void> => {
 }
 
 export const push = async (cwd: string): Promise<number> => {
-  return await exec.exec('git', ['push', 'origin', 'HEAD:HEAD'], { cwd })
+  return await exec.exec('git', ['push', 'origin'], { cwd })
 }

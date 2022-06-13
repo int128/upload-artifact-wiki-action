@@ -22,7 +22,8 @@ export const run = async (inputs: Inputs): Promise<void> => {
   core.info(`cloning ${wikiRepository} into ${workspace}`)
   await git.clone(workspace, wikiRepository, inputs.token)
 
-  const destination = path.join(workspace, getBaseDirectory())
+  const wikiBaseDirectory = getBaseDirectory()
+  const destination = path.join(workspace, wikiBaseDirectory)
   core.info(`copying artifact(s) to ${destination}`)
   await copyFiles(files, destination)
 
@@ -33,6 +34,9 @@ export const run = async (inputs: Inputs): Promise<void> => {
   }
   await git.commit(workspace, 'upload-artifact-wiki')
   await git.push(workspace)
+
+  const wikiHtmlUrl = `${github.context.serverUrl}/${github.context.repo.owner}/${github.context.repo.repo}/wiki/${wikiBaseDirectory}`
+  core.info(`uploaded to ${wikiHtmlUrl}`)
 }
 
 const getBaseDirectory = () => {

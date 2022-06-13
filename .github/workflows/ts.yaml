@@ -33,10 +33,17 @@ jobs:
       - run: yarn build
       - run: yarn package
 
-      - name: e2e-test
+      - run: 'convert logo: -resize 256x256 output.png'
+      - name: Run upload-artifact-wiki
+        id: upload-artifact-wiki
         uses: ./
         with:
-          name: foo
+          path: output.png
+      - uses: int128/comment-action@v1
+        with:
+          post: |
+            ## :sparkles: Uploaded artifact
+            <img width="128" src="${{ steps.upload-artifact-wiki.outputs.url }}/output.png">
 
   generate:
     runs-on: ubuntu-latest

@@ -3,34 +3,27 @@ import * as exec from '@actions/exec'
 
 export const clone = async (cwd: string, url: string, token: string): Promise<void> => {
   await exec.exec('git', ['version'], { cwd })
-  await exec.exec('git', ['init'], { cwd })
-  await exec.exec('git', ['remote', 'add', 'origin', url], { cwd })
-  await exec.exec('git', ['config', '--local', 'gc.auto', '0'], { cwd })
-
   const credentials = Buffer.from(`x-access-token:${token}`).toString('base64')
   core.setSecret(credentials)
   await exec.exec(
     'git',
-    ['config', '--local', 'http.https://github.com/.extraheader', `AUTHORIZATION: basic ${credentials}`],
-    { cwd }
-  )
-  await exec.exec(
-    'git',
     [
-      '-c',
-      'protocol.version=2',
-      'fetch',
+      'clone',
       '--no-tags',
-      '--prune',
-      '--no-recurse-submodules',
+      '--config',
+      `http.https://github.com/.extraheader=AUTHORIZATION: basic ${credentials}`,
+      '--config',
+      'gc.auto=0',
+      '--config',
+      'protocol.version=2',
       '--depth=1',
-      'origin',
-      `+HEAD:refs/remotes/origin/main`,
+      '--no-recurse-submodules',
+      '--',
+      url,
+      '.',
     ],
     { cwd }
   )
-  await exec.exec('git', ['branch', '--list', '--remote', `origin/main`], { cwd })
-  await exec.exec('git', ['checkout', '--progress', '--force', 'main'], { cwd })
 }
 
 export const status = async (cwd: string): Promise<string> => {

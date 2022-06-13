@@ -42,8 +42,8 @@ jobs:
       - uses: int128/comment-action@v1
         with:
           post: |
-            :sparkles: Uploaded artifact
-            ![screenshot](${{ steps.upload-artifact-wiki.outputs.url }}/output.png)
+            ## :sparkles: Uploaded artifact
+            <img width="128" src="${{ steps.upload-artifact-wiki.outputs.url }}/output.png">
 
   generate:
     runs-on: ubuntu-latest

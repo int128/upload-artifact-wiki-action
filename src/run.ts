@@ -1,11 +1,11 @@
 import * as core from '@actions/core'
 import * as io from '@actions/io'
-import * as github from '@actions/github'
 import * as glob from '@actions/glob'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import * as os from 'os'
 import * as git from './git'
+import { Context as GitHubContext } from '@actions/github/lib/context'
 
 type Inputs = {
   path: string
@@ -16,18 +16,20 @@ type Outputs = {
   url: string
 }
 
-export const run = async (inputs: Inputs): Promise<Outputs> => {
+type Context = Pick<GitHubContext, 'repo' | 'serverUrl' | 'ref' | 'eventName' | 'payload'>
+
+export const run = async (inputs: Inputs, context: Context): Promise<Outputs> => {
   const globber = await glob.create(inputs.path, { matchDirectories: false })
   const files = await globber.glob()
   core.info(`uploading ${files.length} artifact(s)`)
 
-  const wikiRepository = `${github.context.serverUrl}/${github.context.repo.owner}/${github.context.repo.repo}.wiki.git`
+  const wikiRepository = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}.wiki.git`
   const workspace = await fs.mkdtemp(path.join(os.tmpdir(), 'upload-artifact-wiki-'))
   core.info(`cloning ${wikiRepository} into ${workspace}`)
   await git.clone(workspace, wikiRepository, inputs.token)
 
-  const wikiBaseDirectory = getBaseDirectory()
-  const wikiBaseUrl = `${github.context.serverUrl}/${github.context.repo.owner}/${github.context.repo.repo}/wiki/${wikiBaseDirectory}`
+  const wikiBaseDirectory = getBaseDirectory(context)
+  const wikiBaseUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/wiki/${wikiBaseDirectory}`
   core.info(`artifact is published at ${wikiBaseUrl}`)
 
   const destination = path.join(workspace, wikiBaseDirectory)
@@ -44,14 +46,14 @@ export const run = async (inputs: Inputs): Promise<Outputs> => {
   return { url: wikiBaseUrl }
 }
 
-const getBaseDirectory = () => {
-  if (github.context.eventName === 'pull_request') {
-    return `pr-${github.context.payload.pull_request?.number ?? 0}`
+export const getBaseDirectory = (context: Context) => {
+  if (context.eventName === 'pull_request') {
+    return `pr-${context.payload.pull_request?.number ?? 0}`
   }
-  return github.context.ref.replace(/^refs\/\w+\//, '')
+  return context.ref.replace(/^refs\/\w+\//, '')
 }
 
-export const copyFiles = async (files: string[], destinationDirectory: string) => {
+const copyFiles = async (files: string[], destinationDirectory: string) => {
   for (const f of files) {
     const relativePath = path.relative('.', f)
     const destination = path.join(destinationDirectory, relativePath)

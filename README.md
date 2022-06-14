@@ -5,7 +5,7 @@ This is an action to upload artifact(s) to GitHub Wiki.
 
 ## Getting Started
 
-To upload an artifact:
+To upload an artifact to GitHub Wiki:
 
 ```yaml
 jobs:
@@ -29,6 +29,16 @@ jobs:
             <img width="128" src="${{ steps.upload-artifact-wiki.outputs.url }}/screenshot.png">
 ```
 
+### Artifact URL
+
+For pull request event, this action uploads artifact(s) to the directory in form of `/pr-NUMBER/SHA`.
+For example, it is called when a pull request `#123` is opened at sha `0123456789012345678901234567890123456789`, you can get it from `https://github.com/OWNER/REPO/wiki/pr-123/0123456789012345678901234567890123456789/screenshot.png`
+
+For push event or others, this action uploads artifact(s) to the directory of branch or tag name.
+For example, it is called on main branch, you can get the artifact from `https://github.com/OWNER/REPO/wiki/main/screenshot.png`.
+
+You can get the artifact URL from `url` of the outputs.
+
 
 ## Specification
 
@@ -36,7 +46,7 @@ jobs:
 
 | Name | Default | Description
 |------|----------|------------
-| `path` | (required) | Path to artifact(s)
+| `path` | (required) | Path to artifact(s) in glob pattern
 | `token` | `github.token` | Token for git operations
 
 

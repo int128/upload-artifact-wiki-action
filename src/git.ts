@@ -22,7 +22,7 @@ export const clone = async (cwd: string, url: string, token: string): Promise<vo
       url,
       '.',
     ],
-    { cwd }
+    { cwd },
   )
   await exec.exec('git', ['rev-parse', 'HEAD'], { cwd })
 }

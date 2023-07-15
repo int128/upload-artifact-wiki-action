@@ -8,7 +8,7 @@ const main = async (): Promise<void> => {
       path: core.getInput('path', { required: true }),
       token: core.getInput('token', { required: true }),
     },
-    github.context
+    github.context,
   )
   core.setOutput('url', outputs.url)
 }

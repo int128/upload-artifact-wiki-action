@@ -28,7 +28,6 @@ jobs:
           node-version: 20
       - run: corepack enable pnpm
       - run: pnpm i
-      - run: pnpm lint
       - run: pnpm test
       - run: pnpm build
 
@@ -55,5 +54,6 @@ jobs:
           node-version: 20
       - run: corepack enable pnpm
       - run: pnpm i
+      - run: pnpm lint --fix
       - run: pnpm format
       - uses: int128/update-generated-files-action@v2

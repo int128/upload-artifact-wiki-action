@@ -1,4 +1,4 @@
-import { getBaseDirectory, getWiki } from '../src/run'
+import { getBaseDirectory, getWiki } from '../src/run.js'
 
 describe('getBaseDirectory returns a directory corresponding to context', () => {
   test('on pull request', () => {

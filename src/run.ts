@@ -1,11 +1,11 @@
 import * as core from '@actions/core'
 import * as io from '@actions/io'
+import * as github from '@actions/github'
 import * as glob from '@actions/glob'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import * as os from 'os'
-import * as git from './git'
-import { Context as GitHubContext } from '@actions/github/lib/context'
+import * as git from './git.js'
 
 type Inputs = {
   path: string
@@ -16,7 +16,7 @@ type Outputs = {
   url: string
 }
 
-type Context = Pick<GitHubContext, 'repo' | 'serverUrl' | 'ref' | 'sha' | 'eventName' | 'payload'>
+type Context = Pick<typeof github.context, 'repo' | 'serverUrl' | 'ref' | 'sha' | 'eventName' | 'payload'>
 
 export const run = async (inputs: Inputs, context: Context): Promise<Outputs> => {
   const wiki = getWiki(context)

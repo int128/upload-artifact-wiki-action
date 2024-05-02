@@ -24,6 +24,7 @@ jobs:
       # post a comment with it
       - uses: int128/comment-action@v1
         with:
+          update-if-exists: replace
           post: |
             ## Screenshot
             <img width="128" src="${{ steps.upload-artifact-wiki.outputs.url }}/screenshot.png">
@@ -31,8 +32,8 @@ jobs:
 
 ### Artifact URL
 
-For pull request event, this action uploads artifact(s) to the directory in form of `/pr-NUMBER/SHA`.
-For example, it is called when a pull request `#123` is opened at sha `0123456789012345678901234567890123456789`, you can get it from `https://github.com/OWNER/REPO/wiki/pr-123/0123456789012345678901234567890123456789/screenshot.png`
+For pull request event, this action uploads artifact(s) to the directory in form of `refs-pulls-NUMBER-merge`.
+For example, it is called when a pull request `#123` is opened, you can get it from `https://github.com/OWNER/REPO/wiki/refs-pulls-123-merge/screenshot.png`
 
 For push event or others, this action uploads artifact(s) to the directory of branch or tag name.
 For example, it is called on main branch, you can get the artifact from `https://github.com/OWNER/REPO/wiki/main/screenshot.png`.

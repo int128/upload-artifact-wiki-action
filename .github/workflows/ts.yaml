@@ -39,6 +39,7 @@ jobs:
           path: output.png
       - uses: int128/comment-action@v1
         with:
+          update-if-exists: replace
           post: |
             ## :sparkles: Uploaded artifact
             <img width="128" src="${{ steps.upload-artifact-wiki.outputs.url }}/output.png">
@@ -47,8 +48,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: 20

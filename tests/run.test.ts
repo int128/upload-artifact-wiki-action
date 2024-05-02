@@ -3,24 +3,16 @@ import { getBaseDirectory, getWiki } from '../src/run.js'
 describe('getBaseDirectory returns a directory corresponding to context', () => {
   test('on pull request', () => {
     const directory = getBaseDirectory({
-      eventName: 'pull_request',
-      payload: {
-        pull_request: {
-          number: 123,
-        },
-      },
       repo: { owner: 'owner', repo: 'repo' },
       ref: 'refs/pulls/123/merge',
       sha: '0123456789012345678901234567890123456789',
       serverUrl: 'https://github.com',
     })
-    expect(directory).toBe('pr-123/0123456789012345678901234567890123456789')
+    expect(directory).toBe('refs-pulls-123-merge')
   })
 
   test('on push', () => {
     const directory = getBaseDirectory({
-      eventName: 'push',
-      payload: {},
       repo: { owner: 'owner', repo: 'repo' },
       ref: 'refs/heads/main',
       sha: '0123456789',
@@ -32,8 +24,6 @@ describe('getBaseDirectory returns a directory corresponding to context', () => 
 
 test('getWiki', () => {
   const wiki = getWiki({
-    eventName: 'push',
-    payload: {},
     repo: { owner: 'owner', repo: 'repo' },
     ref: 'refs/heads/main',
     sha: '0123456789',

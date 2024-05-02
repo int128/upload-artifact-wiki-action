@@ -16,7 +16,7 @@ type Outputs = {
   url: string
 }
 
-type Context = Pick<typeof github.context, 'repo' | 'serverUrl' | 'ref' | 'sha' | 'eventName' | 'payload'>
+type Context = Pick<typeof github.context, 'repo' | 'serverUrl' | 'ref' | 'sha'>
 
 export const run = async (inputs: Inputs, context: Context): Promise<Outputs> => {
   const wiki = getWiki(context)
@@ -53,10 +53,9 @@ export const getWiki = (context: Context) => {
 }
 
 export const getBaseDirectory = (context: Context) => {
-  if (context.eventName === 'pull_request') {
-    return path.join(`pr-${context.payload.pull_request?.number ?? 0}`, context.sha)
-  }
-  return context.ref.replace(/^refs\/\w+\//, '')
+  let ref = context.ref
+  ref = ref.replace(/^refs\/heads\//, '')
+  return ref.replaceAll('/', '-')
 }
 
 const copyFiles = async (files: string[], destinationDirectory: string) => {

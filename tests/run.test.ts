@@ -1,7 +1,8 @@
+import { describe, it, expect } from 'vitest'
 import { getBaseDirectory, getWiki } from '../src/run.js'
 
 describe('getBaseDirectory returns a directory corresponding to context', () => {
-  test('on pull request', () => {
+  it('on pull request', () => {
     const directory = getBaseDirectory({
       repo: { owner: 'owner', repo: 'repo' },
       ref: 'refs/pulls/123/merge',
@@ -11,7 +12,7 @@ describe('getBaseDirectory returns a directory corresponding to context', () => 
     expect(directory).toBe('refs-pulls-123-merge')
   })
 
-  test('on push', () => {
+  it('on push', () => {
     const directory = getBaseDirectory({
       repo: { owner: 'owner', repo: 'repo' },
       ref: 'refs/heads/main',
@@ -22,7 +23,7 @@ describe('getBaseDirectory returns a directory corresponding to context', () => 
   })
 })
 
-test('getWiki', () => {
+it('getWiki', () => {
   const wiki = getWiki({
     repo: { owner: 'owner', repo: 'repo' },
     ref: 'refs/heads/main',

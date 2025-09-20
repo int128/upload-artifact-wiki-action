@@ -50,7 +50,6 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
-          node-version-file: .node-version
           node-version: 20.19.5
       - run: npm install -g pnpm@latest-10
       - run: pnpm i

@@ -1,10 +1,10 @@
+import { promises as fs } from 'node:fs'
+import * as os from 'node:os'
+import * as path from 'node:path'
 import * as core from '@actions/core'
-import * as io from '@actions/io'
-import * as github from '@actions/github'
+import type * as github from '@actions/github'
 import * as glob from '@actions/glob'
-import { promises as fs } from 'fs'
-import * as path from 'path'
-import * as os from 'os'
+import * as io from '@actions/io'
 import * as git from './git.js'
 
 type Inputs = {

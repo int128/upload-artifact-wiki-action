@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { getBaseDirectory, getWiki } from '../src/run.js'
 
 describe('getBaseDirectory returns a directory corresponding to context', () => {

@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import * as github from '@actions/github'
+import { getContext } from './github.js'
 import { run } from './run.js'
 
 const main = async (): Promise<void> => {
@@ -8,7 +8,7 @@ const main = async (): Promise<void> => {
       path: core.getInput('path', { required: true }),
       token: core.getInput('token', { required: true }),
     },
-    github.context,
+    getContext(),
   )
   core.setOutput('url', outputs.url)
 }

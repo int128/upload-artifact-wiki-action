@@ -2,7 +2,6 @@
 
 This is an action to upload artifact(s) to GitHub Wiki.
 
-
 ## Getting Started
 
 To upload an artifact to GitHub Wiki:
@@ -40,19 +39,17 @@ For example, it is called on main branch, you can get the artifact from `https:/
 
 You can get the artifact URL from `url` of the outputs.
 
-
 ## Specification
 
 ### Inputs
 
-| Name | Default | Description
-|------|----------|------------
-| `path` | (required) | Path to artifact(s) in glob pattern
-| `token` | `github.token` | Token for git operations
-
+| Name    | Default        | Description                         |
+| ------- | -------------- | ----------------------------------- |
+| `path`  | (required)     | Path to artifact(s) in glob pattern |
+| `token` | `github.token` | Token for git operations            |
 
 ### Outputs
 
-| Name | Description
-|------|------------
-| `url` | URL of GitHub Wiki
+| Name  | Description        |
+| ----- | ------------------ |
+| `url` | URL of GitHub Wiki |
